@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EF6RecipesModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="EF6RecipesModelStoreContainer">
+          <EntitySet Name="Agent" EntityType="EF6RecipesModel.Store.Agent" store:Type="Tables" Schema="Chapter14" />
+          <EntitySet Name="Product" EntityType="EF6RecipesModel.Store.Product" store:Type="Tables" Schema="Chapter14" />
+        </EntityContainer>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="UnitPrice" Type="money" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Function Name="DeleteAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="TimeStamp" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="InsertAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="TimeStamp" Type="timestamp" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Apress.EF6Recipes.Concurrency.Recipe1" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Recipe1Context" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="Apress.EF6Recipes.Concurrency.Recipe1.Product" />
+          <FunctionImport Name="DeleteAgent">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="TimeStamp" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="InsertAgent" ReturnType="Collection(Binary)">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAgent" ReturnType="Collection(Binary)">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="TimeStamp" Mode="In" Type="Binary" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Type="Int32" Name="ProductId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EF6RecipesModelStoreContainer" CdmEntityContainer="Recipe1Context">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="Apress.EF6Recipes.Concurrency.Recipe1.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteAgent" FunctionName="EF6RecipesModel.Store.DeleteAgent" />
+          <FunctionImportMapping FunctionImportName="InsertAgent" FunctionName="EF6RecipesModel.Store.InsertAgent" />
+          <FunctionImportMapping FunctionImportName="UpdateAgent" FunctionName="EF6RecipesModel.Store.UpdateAgent" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="Chapter14" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

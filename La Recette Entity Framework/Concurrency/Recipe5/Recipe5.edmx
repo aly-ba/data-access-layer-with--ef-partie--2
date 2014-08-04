@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Recipe5.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="Recipe5StoreContainer" />
+        <Function Name="DeleteAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="AccountNumber" Type="varchar" Mode="In" />
+          <Parameter Name="TimeStamp" Type="timestamp" Mode="In" />
+          <Parameter Name="RowsAffected" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="InsertAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="AccountNumber" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Balance" Type="decimal" Mode="In" />
+          <Parameter Name="RowsAffected" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="UpdateAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Chapter14">
+          <Parameter Name="AccountNumber" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Balance" Type="decimal" Mode="In" />
+          <Parameter Name="TimeStamp" Type="timestamp" Mode="In" />
+          <Parameter Name="RowsAffected" Type="int" Mode="InOut" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Apress.EF6Recipes.Concurrency.Recipe5" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Recipe5Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Apress.EF6Recipes.Concurrency.Recipe5.Account" />
+          <FunctionImport Name="DeleteAccount">
+            <Parameter Name="AccountNumber" Mode="In" Type="String" />
+            <Parameter Name="TimeStamp" Mode="In" Type="Binary" />
+            <Parameter Name="RowsAffected" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertAccount">
+            <Parameter Name="AccountNumber" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Balance" Mode="In" Type="Decimal" />
+            <Parameter Name="RowsAffected" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAccount">
+            <Parameter Name="AccountNumber" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Balance" Mode="In" Type="Decimal" />
+            <Parameter Name="TimeStamp" Mode="In" Type="Binary" />
+            <Parameter Name="RowsAffected" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountNumber" />
+          </Key>
+          <Property Type="String" Name="AccountNumber" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="Recipe5" />
+        <Alias Key="Target" Value="Recipe5.Store" />
+        <EntityContainerMapping CdmEntityContainer="Recipe5Context" StorageEntityContainer="Recipe5StoreContainer">
+          <FunctionImportMapping FunctionImportName="DeleteAccount" FunctionName="Recipe5.Store.DeleteAccount" />
+          <FunctionImportMapping FunctionImportName="InsertAccount" FunctionName="Recipe5.Store.InsertAccount" />
+          <FunctionImportMapping FunctionImportName="UpdateAccount" FunctionName="Recipe5.Store.UpdateAccount" />
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Apress.EF6Recipes.Concurrency.Recipe5.Account">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Recipe5.Store.InsertAccount" RowsAffectedParameter="RowsAffected">
+                  <ScalarProperty Name="Balance" ParameterName="Balance" />
+                  <ScalarProperty Name="Name" ParameterName="Name" />
+                  <ScalarProperty Name="AccountNumber" ParameterName="AccountNumber" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Recipe5.Store.UpdateAccount" RowsAffectedParameter="RowsAffected">
+                  <ScalarProperty Name="TimeStamp" ParameterName="TimeStamp" Version="Original" />
+                  <ScalarProperty Name="Balance" ParameterName="Balance" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="Name" Version="Current" />
+                  <ScalarProperty Name="AccountNumber" ParameterName="AccountNumber" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Recipe5.Store.DeleteAccount" RowsAffectedParameter="RowsAffected">
+                  <ScalarProperty Name="TimeStamp" ParameterName="TimeStamp" />
+                  <ScalarProperty Name="AccountNumber" ParameterName="AccountNumber" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="Chapter14" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
